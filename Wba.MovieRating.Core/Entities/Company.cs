@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Wba.MovieRating.Core.Entities
 {
-    public class User : BasePersonEntity
+    public class Company : BaseEntity
     {
-        public string Username { get; set; }
+        public string Name { get; set; }
     }
 }

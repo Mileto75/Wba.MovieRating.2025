@@ -9,6 +9,6 @@ namespace Wba.MovieRating.Core.Entities
     public class Movie : BaseEntity
     {
         public string Title { get; set; }
-        public DateTime ReleaseDate { get; set; }
+        public DateTime? ReleaseDate { get; set; }
     }
 }
