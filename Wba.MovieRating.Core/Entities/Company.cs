@@ -9,5 +9,7 @@ namespace Wba.MovieRating.Core.Entities
     public class Company : BaseEntity
     {
         public string Name { get; set; }
+        //Company has many movies
+        public ICollection<Movie> Movies { get; set; }
     }
 }
