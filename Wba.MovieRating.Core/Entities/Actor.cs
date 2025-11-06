@@ -8,6 +8,7 @@ namespace Wba.MovieRating.Core.Entities
 {
     public class Actor : BasePersonEntity
     {
-        
+        //Actor can be in many movies
+        public ICollection<ActorMovie> Movies { get; set; }
     }
 }

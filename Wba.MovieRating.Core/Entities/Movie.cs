@@ -16,5 +16,9 @@ namespace Wba.MovieRating.Core.Entities
         public int CompanyId { get; set; }
         //Movies has many ratings
         public ICollection<MoviesRating> Ratings { get; set; }
+        //movie can have many directors
+        public ICollection<Director> Directors { get; set; }
+        //movie can have many actors
+        public ICollection<ActorMovie> Actors { get; set; }
     }
 }

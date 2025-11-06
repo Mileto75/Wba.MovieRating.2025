@@ -8,6 +8,7 @@ namespace Wba.MovieRating.Core.Entities
 {
     public class Director : BasePersonEntity
     {
-        
+        //director can have many movies
+        public ICollection<Movie> Movies { get; set; }
     }
 }
