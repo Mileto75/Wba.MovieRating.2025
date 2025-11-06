@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Wba.MovieRating.Core.Entities
 {
-    public class Rating : BaseEntity
+    public class MoviesRating
     {
         public Movie Movie { get; set; }
         public int MovieId { get; set; }
