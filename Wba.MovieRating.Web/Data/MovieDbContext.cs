@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Wba.MovieRating.Core.Entities;
+using Wba.MovieRating.Web.Data.Seeding;
 
 namespace Wba.MovieRating.Web.Data
 {
@@ -65,6 +66,8 @@ namespace Wba.MovieRating.Web.Data
             #endregion
             #region Company
             #endregion
+            //call the seeder
+            Seeder.Seed(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
     }
