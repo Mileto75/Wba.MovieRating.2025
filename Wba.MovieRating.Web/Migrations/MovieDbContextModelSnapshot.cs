@@ -35,6 +35,23 @@ namespace Wba.MovieRating.Web.Migrations
                     b.HasIndex("MoviesId");
 
                     b.ToTable("DirectorMovie");
+
+                    b.HasData(
+                        new
+                        {
+                            DirectorsId = 1,
+                            MoviesId = 1
+                        },
+                        new
+                        {
+                            DirectorsId = 2,
+                            MoviesId = 2
+                        },
+                        new
+                        {
+                            DirectorsId = 1,
+                            MoviesId = 3
+                        });
                 });
 
             modelBuilder.Entity("Wba.MovieRating.Core.Entities.Actor", b =>
@@ -58,6 +75,26 @@ namespace Wba.MovieRating.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Actors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Firstname = "Ryan",
+                            Lastname = "Renolds"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Firstname = "Kim",
+                            Lastname = "Basinger"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Firstname = "Pamela",
+                            Lastname = "Anderson"
+                        });
                 });
 
             modelBuilder.Entity("Wba.MovieRating.Core.Entities.ActorMovie", b =>
@@ -84,6 +121,43 @@ namespace Wba.MovieRating.Web.Migrations
                     b.HasIndex("MovieId");
 
                     b.ToTable("ActorMovie");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ActorId = 1,
+                            Character = "Deadpool",
+                            MovieId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ActorId = 2,
+                            Character = "Kim",
+                            MovieId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ActorId = 3,
+                            Character = "Pamela",
+                            MovieId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ActorId = 1,
+                            Character = "Danny",
+                            MovieId = 2
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ActorId = 3,
+                            Character = "Pamela",
+                            MovieId = 3
+                        });
                 });
 
             modelBuilder.Entity("Wba.MovieRating.Core.Entities.Company", b =>
@@ -100,6 +174,23 @@ namespace Wba.MovieRating.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Sony"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Columbia Pictures"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Marvel"
+                        });
                 });
 
             modelBuilder.Entity("Wba.MovieRating.Core.Entities.Director", b =>
@@ -119,6 +210,20 @@ namespace Wba.MovieRating.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Directors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Firstname = "Francis F.",
+                            Lastname = "Coppola"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Firstname = "Martin",
+                            Lastname = "Scorsese"
+                        });
                 });
 
             modelBuilder.Entity("Wba.MovieRating.Core.Entities.Movie", b =>
@@ -145,6 +250,29 @@ namespace Wba.MovieRating.Web.Migrations
                     b.HasIndex("CompanyId");
 
                     b.ToTable("Movies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CompanyId = 1,
+                            ReleaseDate = new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Deadpool"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CompanyId = 2,
+                            ReleaseDate = new DateTime(2018, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "The suicide squad"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CompanyId = 3,
+                            ReleaseDate = new DateTime(1972, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "The godfather"
+                        });
                 });
 
             modelBuilder.Entity("Wba.MovieRating.Core.Entities.MoviesRating", b =>
@@ -165,6 +293,62 @@ namespace Wba.MovieRating.Web.Migrations
                     b.ToTable("Ratings", t =>
                         {
                             t.HasCheckConstraint("chk_range", "score BETWEEN 1 AND 5");
+                        });
+
+                    b.HasData(
+                        new
+                        {
+                            MovieId = 1,
+                            UserId = 2,
+                            Score = 4
+                        },
+                        new
+                        {
+                            MovieId = 2,
+                            UserId = 2,
+                            Score = 5
+                        },
+                        new
+                        {
+                            MovieId = 3,
+                            UserId = 2,
+                            Score = 2
+                        },
+                        new
+                        {
+                            MovieId = 1,
+                            UserId = 1,
+                            Score = 2
+                        },
+                        new
+                        {
+                            MovieId = 2,
+                            UserId = 1,
+                            Score = 3
+                        },
+                        new
+                        {
+                            MovieId = 3,
+                            UserId = 1,
+                            Score = 5
+                        },
+                        new
+                        {
+                            MovieId = 1,
+                            UserId = 3,
+                            Score = 3
+                        },
+                        new
+                        {
+                            MovieId = 2,
+                            UserId = 3,
+                            Score = 2
+                        },
+                        new
+                        {
+                            MovieId = 3,
+                            UserId = 3,
+                            Score = 1
                         });
                 });
 
@@ -192,6 +376,26 @@ namespace Wba.MovieRating.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Firstname = "Bart",
+                            Lastname = "Soete"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Firstname = "Joachim",
+                            Lastname = "François"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Firstname = "Dries",
+                            Lastname = "Deboosere"
+                        });
                 });
 
             modelBuilder.Entity("DirectorMovie", b =>

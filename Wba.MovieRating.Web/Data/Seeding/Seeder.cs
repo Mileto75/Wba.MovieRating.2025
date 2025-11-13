@@ -20,7 +20,7 @@ namespace Wba.MovieRating.Web.Data.Seeding
             var directors = new Director[]
             {
                 new Director{ Id = 1,Firstname = "Francis F.",Lastname = "Coppola"},
-                new Director{ Id = 1,Firstname = "Martin",Lastname = "Scorsese"},
+                new Director{ Id = 2,Firstname = "Martin",Lastname = "Scorsese"},
             };
             #endregion
             #region Actors
