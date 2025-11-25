@@ -80,6 +80,29 @@ namespace Wba.MovieRating.Web.Controllers
             //pass to the view
             return View(moviesInfoViewModel);
         }
-
+        //crud
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            //declare the viewmodel
+            //load the data for the dropdowns
+            //set the releasedate to today
+            //pass to the view
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(MoviesCreateViewModel moviesCreateViewModel)
+        {
+            //validate the data in the viewmodel
+            //custom validation if necessary
+            //check modelstate
+            //reload the dropdowns if necessary
+            //handle file upload if necessary
+            //create the movie
+            //add to the tracking context
+            //save to the database
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

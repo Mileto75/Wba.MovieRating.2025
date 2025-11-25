@@ -13,6 +13,7 @@ namespace Wba.MovieRating.Core.Entities
         //movie has one company
         public Company Company { get; set; }
         //unshadowed foreign key property !examen!
+        public string Image { get; set; } //stores the image filename
         public int CompanyId { get; set; }
         //Movies has many ratings
         public ICollection<MoviesRating> Ratings { get; set; }
