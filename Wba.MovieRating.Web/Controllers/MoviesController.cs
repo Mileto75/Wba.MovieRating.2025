@@ -16,11 +16,13 @@ namespace Wba.MovieRating.Web.Controllers
             _movieDbContext = movieDbContext;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
             //get the movies
-            var movies = _movieDbContext
-                .Movies.ToList();
+            var movies = await _movieDbContext
+                .Movies.ToListAsync();
+            
             //fill the model => object initialisation
             var moviesIndexViewModel = new MoviesIndexViewModel
             {
@@ -35,5 +37,49 @@ namespace Wba.MovieRating.Web.Controllers
             //pass to the view
             return View(moviesIndexViewModel);
         }
+        [HttpGet]
+        public async Task<IActionResult> Info(long id)
+        {
+            //get the movie use id
+            var movie = await _movieDbContext.Movies
+                .Include(m => m.Company)
+                .Include(m => m.Actors)
+                .ThenInclude(a => a.Actor)
+                .Include(m => m.Directors)
+                .Include(m => m.Ratings)
+                .AsSplitQuery()
+                .FirstOrDefaultAsync(m => m.Id == id);
+            //check if null
+            if(movie is null)
+            {
+                return NotFound();
+            }
+            //fill the model
+            var moviesInfoViewModel = new MoviesInfoViewModel
+            {
+                Id = movie.Id,
+                Value = movie.Title,
+                ReleaseDate = (DateTime)movie.ReleaseDate,
+                Actors = movie.Actors.Select(a => new BaseViewModel
+                {
+                    Id = a.Id,
+                    Value = $"{a.Actor.Firstname} {a.Actor.Lastname}"
+                }),
+                Directors = movie.Directors.Select(d => new BaseViewModel
+                {
+                    Id = d.Id,
+                    Value = $"{d.Firstname} {d.Lastname}"
+                }),
+                Company = new BaseViewModel 
+                {
+                    Id = movie.Company.Id,
+                    Value = movie.Company.Name
+                },
+                AverageRating = movie.Ratings.Average(r => r.Score)
+            };
+            //pass to the view
+            return View(moviesInfoViewModel);
+        }
+
     }
 }
