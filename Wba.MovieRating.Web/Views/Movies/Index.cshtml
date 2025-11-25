@@ -1,0 +1,40 @@
+﻿@model MoviesIndexViewModel
+
+<div class="row">
+    <div class="col col-lg-6 mx-auto">
+        <h5>Our movies</h5>
+        <p>
+            <a asp-controller="Movies" asp-action="Create" class="btn btn-outline-info">New movie</a>
+        </p>
+        <table class="table table-hover table-light table-responsive-lg">
+            <thead>
+                <tr>
+                    <th>Movie</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var movie in Model.Movies)
+                { 
+                    <tr>
+                        <td>@movie.Value</td>
+                        <td>
+                            <a asp-controller="Movies" 
+                               asp-action="Info"
+                               asp-route-id="@movie.Id"
+                               class="btn btn-outline-info">Info</a>
+                            <a asp-controller="Movies" 
+                               asp-action="Edit"
+                               asp-route-id="@movie.Id"
+                               class="btn btn-outline-warning">Edit</a>
+                            <a asp-controller="Movies" 
+                               asp-action="Delete"
+                               asp-route-id="@movie.Id"
+                               class="btn btn-outline-danger">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
