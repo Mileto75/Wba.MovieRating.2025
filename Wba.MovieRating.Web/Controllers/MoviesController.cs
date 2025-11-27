@@ -81,8 +81,18 @@ namespace Wba.MovieRating.Web.Controllers
                     Id = movie.Company.Id,
                     Value = movie.Company.Name
                 },
-                AverageRating = movie.Ratings.Average(r => r.Score)
+                //short if to handle empty ratings 
+                AverageRating = movie.Ratings.Count() == 0 ? 0 : movie.Ratings.Average(r => r.Score)
             };
+            //check if image is null
+            if(movie.Image is null)
+            {
+                moviesInfoViewModel.Image = "https://placehold.co/600x400";
+            }
+            else
+            {
+                moviesInfoViewModel.Image = $"/images/{movie.Image}";
+            }
             //pass to the view
             return View(moviesInfoViewModel);
         }
@@ -159,8 +169,7 @@ namespace Wba.MovieRating.Web.Controllers
             if (moviesCreateViewModel.Image is not null)
             {
                 //upload movie
-                Console.WriteLine(moviesCreateViewModel.Image.ContentDisposition);
-
+                
                 //create unique filename
                 var filename = $"{Guid.NewGuid()}_{moviesCreateViewModel.Image.FileName}";
                 //create path to wwwroot/images
@@ -174,7 +183,7 @@ namespace Wba.MovieRating.Web.Controllers
                 //create fullpath to file
                 var fullPathToFile = Path.Combine(pathToImgFolder, filename);
                     //copy file using filestream
-                using(var filestream = new FileStream(pathToImgFolder,FileMode.Create))
+                using(var filestream = new FileStream(fullPathToFile,FileMode.Create))
                 {
                     await moviesCreateViewModel.Image.CopyToAsync(filestream);
                 }

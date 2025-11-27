@@ -10,5 +10,6 @@
         public BaseViewModel Company { get; set; }
         public DateTime ReleaseDate { get; set; }
         public double AverageRating { get; set; }
+        public string Image { get; set; }
     }
 }
