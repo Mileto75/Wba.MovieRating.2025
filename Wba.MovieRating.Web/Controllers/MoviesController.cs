@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Wba.MovieRating.Web.Data;
 using Wba.MovieRating.Web.ViewModels;
@@ -87,8 +88,34 @@ namespace Wba.MovieRating.Web.Controllers
             //declare the viewmodel
             //load the data for the dropdowns
             //set the releasedate to today
+
+            var moviesCreateViewModel = new MoviesCreateViewModel
+            {
+                Companies = await _movieDbContext.Companies
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                })
+                .ToListAsync(),
+                Directors = await _movieDbContext.Directors
+                .Select(d => new SelectListItem
+                {
+                    Value = d.Id.ToString(),
+                    Text = $"{d.Firstname} {d.Lastname}"
+                })
+                .ToListAsync(),
+                Actors = await _movieDbContext.Directors
+                .Select(a => new SelectListItem
+                {
+                    Value = a.Id.ToString(),
+                    Text = $"{a.Firstname} {a.Lastname}",
+                })
+                .ToListAsync(),
+                ReleaseDate = DateTime.Now
+            };
             //pass to the view
-            return View();
+            return View(moviesCreateViewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
