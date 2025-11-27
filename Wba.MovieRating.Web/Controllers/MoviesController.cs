@@ -11,11 +11,15 @@ namespace Wba.MovieRating.Web.Controllers
     {
         //declare the database context
         private readonly MovieDbContext _movieDbContext;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public MoviesController(MovieDbContext movieDbContext)
+
+
+        public MoviesController(MovieDbContext movieDbContext, IWebHostEnvironment webHostEnvironment)
         {
             //inject the database context = constructor injection
             _movieDbContext = movieDbContext;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
@@ -134,7 +138,6 @@ namespace Wba.MovieRating.Web.Controllers
                     //reload the dropdowns
                     return View(moviesCreateViewModel);
                 }
-            //reload the dropdowns if necessary
             //create the movie
             var movie = new Movie
             {
@@ -142,9 +145,9 @@ namespace Wba.MovieRating.Web.Controllers
                 ReleaseDate = moviesCreateViewModel.ReleaseDate,
                 CompanyId = moviesCreateViewModel.CompanyId,
                 Image = "https://placehold.co/600x400",//set default placeholder image
-                Directors = _movieDbContext.Directors
+                Directors = await _movieDbContext.Directors
                             .Where(d => moviesCreateViewModel.DirectorIds
-                            .Contains(d.Id)).ToList(),
+                            .Contains(d.Id)).ToListAsync(),
             };
             movie.Actors = moviesCreateViewModel.ActorIds.Select(a =>
                 new ActorMovie
@@ -156,7 +159,27 @@ namespace Wba.MovieRating.Web.Controllers
             if (moviesCreateViewModel.Image is not null)
             {
                 //upload movie
+                Console.WriteLine(moviesCreateViewModel.Image.ContentDisposition);
+
+                //create unique filename
+                var filename = $"{Guid.NewGuid()}_{moviesCreateViewModel.Image.FileName}";
+                //create path to wwwroot/images
+                var pathToImgFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                    //check if directory exists
+                if(!Directory.Exists(pathToImgFolder))
+                {
+                    //create directory
+                    Directory.CreateDirectory(pathToImgFolder);
+                }
+                //create fullpath to file
+                var fullPathToFile = Path.Combine(pathToImgFolder, filename);
+                    //copy file using filestream
+                using(var filestream = new FileStream(pathToImgFolder,FileMode.Create))
+                {
+                    await moviesCreateViewModel.Image.CopyToAsync(filestream);
+                }
                 //set movie image to filename
+                movie.Image = filename;
             }
             //add to the tracking context
             _movieDbContext.Movies.Add(movie);
