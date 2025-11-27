@@ -19,7 +19,7 @@ namespace Wba.MovieRating.Web.ViewModels
         public IEnumerable<SelectListItem> Actors { get; set; }
         public IEnumerable<SelectListItem> Directors { get; set; }
         [Required]
-        public long CompanyId { get; set; }
+        public int CompanyId { get; set; }
         [Display(Name = "Company:")]
         public IEnumerable<SelectListItem> Companies { get; set; }
         //file upload

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Wba.MovieRating.Core.Entities;
 using Wba.MovieRating.Web.Data;
 using Wba.MovieRating.Web.ViewModels;
 
@@ -122,13 +123,45 @@ namespace Wba.MovieRating.Web.Controllers
         public async Task<IActionResult> Create(MoviesCreateViewModel moviesCreateViewModel)
         {
             //validate the data in the viewmodel
-            //custom validation if necessary
-            //check modelstate
+                //custom validation if necessary
+                if(moviesCreateViewModel.ReleaseDate >= DateTime.Now)
+                {
+                    //add error to modelstate
+                }
+                //check modelstate
+                if(!ModelState.IsValid)
+                {
+                    //reload the dropdowns
+                    return View(moviesCreateViewModel);
+                }
             //reload the dropdowns if necessary
-            //handle file upload if necessary
             //create the movie
+            var movie = new Movie
+            {
+                Title = moviesCreateViewModel.Title,
+                ReleaseDate = moviesCreateViewModel.ReleaseDate,
+                CompanyId = moviesCreateViewModel.CompanyId,
+                Image = "https://placehold.co/600x400",//set default placeholder image
+                Directors = _movieDbContext.Directors
+                            .Where(d => moviesCreateViewModel.DirectorIds
+                            .Contains(d.Id)).ToList(),
+            };
+            movie.Actors = moviesCreateViewModel.ActorIds.Select(a =>
+                new ActorMovie
+                {
+                    ActorId = a,
+                    MovieId = movie.Id,
+                }).ToList();
+            //handle file upload if necessary
+            if (moviesCreateViewModel.Image is not null)
+            {
+                //upload movie
+                //set movie image to filename
+            }
             //add to the tracking context
+            _movieDbContext.Movies.Add(movie);
             //save to the database
+            _movieDbContext.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
     }
